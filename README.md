@@ -9,9 +9,9 @@ These classes come from [@dgageot's simplelenium library](https://github.com/dga
 You can use it by subclassing `Downloader` class with your own needs, for instance :
 
 ```
-import net.codestory.simplelenium.driver.Configuration;
-import net.codestory.simplelenium.driver.Downloader;
-import net.codestory.simplelenium.driver.LockFile;
+import net.codestory.simpledl.Configuration;
+import net.codestory.simpledl.Downloader;
+import net.codestory.simpledl.LockFile;
 
 import java.io.*;
 
