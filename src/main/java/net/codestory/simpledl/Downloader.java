@@ -48,16 +48,16 @@ public abstract class Downloader {
     }
   }
 
-  protected void extractExe(String driverName, String url, File installDirectory, File executable) {
+  protected void extractExe(String libName, String url, File installDirectory, File executable) {
     if (executable.exists()) {
       return;
     }
 
     String zipName = url.substring(url.lastIndexOf('/') + 1);
     File targetZip = new File(installDirectory, zipName);
-    downloadZip(driverName, url, targetZip);
+    downloadZip(libName, url, targetZip);
 
-    System.out.println("Extracting " + driverName);
+    System.out.println("Extracting " + libName);
     try {
       if (url.endsWith(".zip")) {
         unzip(targetZip, installDirectory);
@@ -65,7 +65,7 @@ public abstract class Downloader {
         untarbz2(targetZip, installDirectory);
       }
     } catch (Exception e) {
-      throw new IllegalStateException("Unable to uncompress " + driverName + " from " + targetZip.getAbsolutePath(), e);
+      throw new IllegalStateException("Unable to uncompress " + libName + " from " + targetZip.getAbsolutePath(), e);
     }
 
     executable.setExecutable(true);
