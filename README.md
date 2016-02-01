@@ -9,7 +9,7 @@ These classes come from [@dgageot's simplelenium library](https://github.com/dga
 You can use it by subclassing `Downloader` class with your own needs, for instance :
 
 ```
-package net.codestory.simpledl.example;
+package net.codestory.simpledl.samples;
 
 import net.codestory.simpledl.Configuration;
 import net.codestory.simpledl.Downloader;
@@ -17,13 +17,11 @@ import net.codestory.simpledl.Downloader;
 import java.io.*;
 
 public class PhantomJsDownloader extends Downloader {
-  String customPhantomJSUrl;
-  String customPhantomJSExe;
+  private PlatformInstall customPlatformInstall = null;
 
-  public PhantomJsDownloader(String customPhantomJSUrl, String customPhantomJSExe) {
+  public PhantomJsDownloader(PlatformInstall customPlatformInstall) {
     this();
-    this.customPhantomJSUrl = customPhantomJSUrl;
-    this.customPhantomJSExe = customPhantomJSExe;
+    this.customPlatformInstall = customPlatformInstall;
   }
 
   public PhantomJsDownloader() {
@@ -34,10 +32,10 @@ public class PhantomJsDownloader extends Downloader {
     super(retryConnect, retryDownload);
   }
 
-  protected synchronized File downloadAndExtract() {
+  public File downloadAndExtract() {
     PlatformInstall platformInstall;
     if (isCustomized()) {
-      platformInstall = new PlatformInstall(customPhantomJSUrl, customPhantomJSExe);
+      platformInstall = customPlatformInstall;
     } else if (isWindows()) {
       platformInstall = new PlatformInstall(
         "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip",
@@ -60,8 +58,7 @@ public class PhantomJsDownloader extends Downloader {
   }
 
   protected boolean isCustomized() {
-    return customPhantomJSUrl != null
-        && customPhantomJSExe != null;
+    return customPlatformInstall != null;
   }
 }
 ```
