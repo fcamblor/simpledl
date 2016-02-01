@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Simplelenium</name>
+  <name>Simpledl</name>
   <description>A simple file downloader and archive extractor.</description>
   <url>https://github.com/fcamblor/simpledl</url>
 
