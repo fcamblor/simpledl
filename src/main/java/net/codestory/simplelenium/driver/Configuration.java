@@ -35,6 +35,10 @@ public enum Configuration {
   }
 
   public String get() {
+    return get(key, defaultValue, required);
+  }
+
+  public static String get(String key, String defaultValue, boolean required) {
     String value = System.getProperty(key);
 
     if ((value == null) || value.trim().isEmpty()) {
