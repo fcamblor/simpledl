@@ -16,18 +16,6 @@
 package net.codestory.simplelenium.driver;
 
 public enum Configuration {
-  // Active browser name
-  BROWSER("browser", "PHANTOM_JS", false),
-
-  // ChromeDriver specific configuration
-  CHROMEDRIVER_URL("chromedriver.url", null, false),
-  CHROMEDRIVER_EXE("chromedriver.exe", null, false),
-  CHROMEDRIVER_PORT("chromedriver.port", "0", false),
-
-  // PhantomJs specific configuration
-  PHANTOMJS_URL("phantomjs.url", null, false),
-  PHANTOMJS_EXE("phantomjs.exe", null, false),
-
   // Standard system properties
   USER_HOME("user.home", null, true),
   OS_NAME("os.name", null, true);
