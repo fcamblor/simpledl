@@ -9,6 +9,8 @@ These classes come from [@dgageot's simplelenium library](https://github.com/dga
 You can use it by subclassing `Downloader` class with your own needs, for instance :
 
 ```
+package net.codestory.simpledl.example;
+
 import net.codestory.simpledl.Configuration;
 import net.codestory.simpledl.Downloader;
 import net.codestory.simpledl.LockFile;
@@ -40,28 +42,20 @@ public class PhantomJsDownloader extends Downloader {
     LockFile lock = new LockFile(new File(installDir, "lock"));
     lock.waitLock();
     try {
-      String url;
-      File phantomJsExe;
+      PlatformInstall platformInstall;
       if (isCustomized()) {
-        url = customPhantomJSUrl;
-        phantomJsExe = new File(installDir, customPhantomJSExe);
+        platformInstall = new PlatformInstall(customPhantomJSUrl, customPhantomJSExe);
       } else if (isWindows()) {
-        url = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip";
-        phantomJsExe = new File(installDir, "phantomjs-1.9.8-windows/phantomjs.exe");
+        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip", "phantomjs-1.9.8-windows/phantomjs.exe");
       } else if (isMac()) {
-        url = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-macosx.zip";
-        phantomJsExe = new File(installDir, "phantomjs-1.9.8-macosx/bin/phantomjs");
+        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-macosx.zip", "phantomjs-1.9.8-macosx/bin/phantomjs");
       } else if (isLinux32()) {
-        url = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-i686.tar.bz2";
-        phantomJsExe = new File(installDir, "phantomjs-1.9.8-linux-i686/bin/phantomjs");
+        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-i686.tar.bz2", "phantomjs-1.9.8-linux-i686/bin/phantomjs");
       } else {
-        url = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2";
-        phantomJsExe = new File(installDir, "phantomjs-1.9.8-linux-x86_64/bin/phantomjs");
+        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2", "phantomjs-1.9.8-linux-x86_64/bin/phantomjs");
       }
 
-      extractExe("phantomJs", url, installDir, phantomJsExe);
-
-      return phantomJsExe;
+      return extractExe("phantomJs", platformInstall, installDir);
     } finally {
       lock.release();
     }

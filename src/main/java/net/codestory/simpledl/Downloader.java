@@ -48,9 +48,29 @@ public abstract class Downloader {
     }
   }
 
-  protected void extractExe(String libName, String url, File installDirectory, File executable) {
+  public static class PlatformInstall {
+    String url;
+    String executablePath;
+
+    public PlatformInstall(String url, String executablePath) {
+      this.url = url;
+      this.executablePath = executablePath;
+    }
+
+    public String getUrl() {
+      return url;
+    }
+
+    public String getExecutablePath() {
+      return executablePath;
+    }
+  }
+
+  protected File extractExe(String libName, PlatformInstall platformInstall, File installDirectory) {
+    String url = platformInstall.getUrl();
+    File executable = new File(installDirectory, platformInstall.getExecutablePath());
     if (executable.exists()) {
-      return;
+      return executable;
     }
 
     String zipName = url.substring(url.lastIndexOf('/') + 1);
@@ -69,6 +89,7 @@ public abstract class Downloader {
     }
 
     executable.setExecutable(true);
+    return executable;
   }
 
   protected void downloadZip(String driverName, String url, File targetZip) {
