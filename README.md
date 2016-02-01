@@ -13,7 +13,6 @@ package net.codestory.simpledl.example;
 
 import net.codestory.simpledl.Configuration;
 import net.codestory.simpledl.Downloader;
-import net.codestory.simpledl.LockFile;
 
 import java.io.*;
 
@@ -36,35 +35,33 @@ public class PhantomJsDownloader extends Downloader {
   }
 
   protected synchronized File downloadAndExtract() {
-    File installDir = new File(Configuration.USER_HOME.get(), ".phantomjs");
-    installDir.mkdirs();
-
-    LockFile lock = new LockFile(new File(installDir, "lock"));
-    lock.waitLock();
-    try {
-      PlatformInstall platformInstall;
-      if (isCustomized()) {
-        platformInstall = new PlatformInstall(customPhantomJSUrl, customPhantomJSExe);
-      } else if (isWindows()) {
-        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip", "phantomjs-1.9.8-windows/phantomjs.exe");
-      } else if (isMac()) {
-        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-macosx.zip", "phantomjs-1.9.8-macosx/bin/phantomjs");
-      } else if (isLinux32()) {
-        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-i686.tar.bz2", "phantomjs-1.9.8-linux-i686/bin/phantomjs");
-      } else {
-        platformInstall = new PlatformInstall("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2", "phantomjs-1.9.8-linux-x86_64/bin/phantomjs");
-      }
-
-      return extractExe("phantomJs", platformInstall, installDir);
-    } finally {
-      lock.release();
+    PlatformInstall platformInstall;
+    if (isCustomized()) {
+      platformInstall = new PlatformInstall(customPhantomJSUrl, customPhantomJSExe);
+    } else if (isWindows()) {
+      platformInstall = new PlatformInstall(
+        "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip",
+        "phantomjs-1.9.8-windows/phantomjs.exe");
+    } else if (isMac()) {
+      platformInstall = new PlatformInstall(
+        "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-macosx.zip",
+        "phantomjs-1.9.8-macosx/bin/phantomjs");
+    } else if (isLinux32()) {
+      platformInstall = new PlatformInstall(
+        "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-i686.tar.bz2",
+        "phantomjs-1.9.8-linux-i686/bin/phantomjs");
+    } else {
+      platformInstall = new PlatformInstall(
+        "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2",
+        "phantomjs-1.9.8-linux-x86_64/bin/phantomjs");
     }
+
+    return downloadAndExtract(new File(Configuration.USER_HOME.get(), ".phantomjs"), platformInstall);
   }
 
   protected boolean isCustomized() {
     return customPhantomJSUrl != null
         && customPhantomJSExe != null;
   }
-
 }
 ```

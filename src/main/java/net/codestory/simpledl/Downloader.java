@@ -66,6 +66,18 @@ public abstract class Downloader {
     }
   }
 
+  protected synchronized File downloadAndExtract(File installDir, PlatformInstall platformInstall) {
+    installDir.mkdirs();
+
+    LockFile lock = new LockFile(new File(installDir, "lock"));
+    lock.waitLock();
+    try {
+      return extractExe("phantomJs", platformInstall, installDir);
+    } finally {
+      lock.release();
+    }
+  }
+
   protected File extractExe(String libName, PlatformInstall platformInstall, File installDirectory) {
     String url = platformInstall.getUrl();
     File executable = new File(installDirectory, platformInstall.getExecutablePath());
